@@ -2,11 +2,28 @@
 	<section class="panel">
 		<header class="header">
 			<div>
-				<p class="eyebrow">Backend conectado</p>
+				<p class="eyebrow">Usuarios</p>
 				<h1>Usuarios</h1>
 			</div>
-			<span class="endpoint">GET /usuarios</span>
 		</header>
+
+		<form class="form" (ngSubmit)="guardar()">
+			<label>
+				Nombre
+				<input name="nombre" [(ngModel)]="nuevoUsuario.nombre" required />
+			</label>
+			<label>
+				Correo
+				<input name="email" type="email" [(ngModel)]="nuevoUsuario.email" required />
+			</label>
+			<button type="submit" [disabled]="guardando()">
+				{{ guardando() ? 'Guardando...' : 'Agregar usuario' }}
+			</button>
+		</form>
+
+		@if (guardado()) {
+			<p class="success">{{ guardado() }}</p>
+		}
 
 		@if (cargando()) {
 			<p class="message">Cargando usuarios...</p>
@@ -18,7 +35,7 @@
 			<div class="table-wrapper">
 				<table>
 					<thead>
-						<tr><th>ID</th><th>Nombre</th><th>Correo</th></tr>
+						<tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Rol</th></tr>
 					</thead>
 					<tbody>
 						@for (usuario of usuarios(); track usuario.id) {
@@ -26,6 +43,7 @@
 								<td>{{ usuario.id ?? '-' }}</td>
 								<td>{{ usuario.nombre ?? '-' }}</td>
 								<td>{{ usuario.email ?? '-' }}</td>
+								<td>{{ usuario.rol ?? 'NORMAL' }}</td>
 							</tr>
 						}
 					</tbody>

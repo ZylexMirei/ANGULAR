@@ -4,7 +4,7 @@ import { ValidarAcceso } from './validar-acceso/validar-acceso';
 @Component({
   selector: 'app-root',
   imports: [ValidarAcceso],
-  template: '<app-validar-acceso />',
+  templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {}

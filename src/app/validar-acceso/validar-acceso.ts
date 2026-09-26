@@ -1,9 +1,10 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { Usuario, ValidarAcceso as ValidarAccesoService } from './service/validar-acceso';
+import { FormsModule } from '@angular/forms';
+import { NuevoUsuario, Usuario, ValidarAcceso as ValidarAccesoService } from './service/validar-acceso';
 
 @Component({
   selector: 'app-validar-acceso',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './validar-acceso.html',
   styleUrl: './validar-acceso.scss',
 })
@@ -12,8 +13,34 @@ export class ValidarAcceso implements OnInit {
   protected readonly usuarios = signal<Usuario[]>([]);
   protected readonly cargando = signal(true);
   protected readonly error = signal('');
+  protected readonly guardando = signal(false);
+  protected readonly guardado = signal('');
+  protected nuevoUsuario: NuevoUsuario = { nombre: '', email: '' };
 
   ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  protected guardar(): void {
+    this.error.set('');
+    this.guardado.set('');
+    this.guardando.set(true);
+
+    this.service.crear(this.nuevoUsuario).subscribe({
+      next: () => {
+        this.nuevoUsuario = { nombre: '', email: '' };
+        this.guardando.set(false);
+        this.guardado.set('Usuario agregado correctamente.');
+        this.cargarUsuarios();
+      },
+      error: () => {
+        this.guardando.set(false);
+        this.error.set('No se pudo guardar el usuario.');
+      },
+    });
+  }
+
+  private cargarUsuarios(): void {
     this.service.listar().subscribe({
       next: (usuarios) => {
         this.usuarios.set(usuarios);

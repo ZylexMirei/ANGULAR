@@ -6,7 +6,13 @@ export interface Usuario {
   id?: number | string;
   nombre?: string;
   email?: string;
+  rol?: string;
   [key: string]: unknown;
+}
+
+export interface NuevoUsuario {
+  nombre: string;
+  email: string;
 }
 
 @Injectable({
@@ -19,5 +25,9 @@ export class ValidarAcceso {
 
   listar(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.apiUrl);
+  }
+
+  crear(usuario: NuevoUsuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.apiUrl, usuario);
   }
 }
