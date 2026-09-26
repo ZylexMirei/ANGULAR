@@ -3,11 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Usuario {
-  id?: number | string;
+  id?: number;
   nombre?: string;
   email?: string;
+  fechaCreacion?: string;
+  fechaModificacion?: string | null;
+  creadoPor?: string | null;
+  modificadoPor?: string | null;
+  eliminado?: boolean;
   rol?: string;
-  [key: string]: unknown;
+  flag?: boolean | null;
 }
 
 export interface NuevoUsuario {
@@ -31,3 +36,4 @@ export class ValidarAcceso {
     return this.http.post<Usuario>(this.apiUrl, usuario);
   }
 }
+
