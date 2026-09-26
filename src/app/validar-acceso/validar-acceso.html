@@ -1,1 +1,36 @@
-<p>validar-acceso works!</p>
+<main class="page">
+	<section class="panel">
+		<header class="header">
+			<div>
+				<p class="eyebrow">Backend conectado</p>
+				<h1>Usuarios</h1>
+			</div>
+			<span class="endpoint">GET /usuarios</span>
+		</header>
+
+		@if (cargando()) {
+			<p class="message">Cargando usuarios...</p>
+		} @else if (error()) {
+			<p class="message error">{{ error() }}</p>
+		} @else if (usuarios().length === 0) {
+			<p class="message">No hay usuarios registrados.</p>
+		} @else {
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr><th>ID</th><th>Nombre</th><th>Correo</th></tr>
+					</thead>
+					<tbody>
+						@for (usuario of usuarios(); track usuario.id) {
+							<tr>
+								<td>{{ usuario.id ?? '-' }}</td>
+								<td>{{ usuario.nombre ?? '-' }}</td>
+								<td>{{ usuario.email ?? '-' }}</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
+	</section>
+</main>

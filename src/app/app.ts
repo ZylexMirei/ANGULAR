@@ -1,11 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { ValidarAcceso } from './validar-acceso/validar-acceso';
 
 @Component({
   selector: 'app-root',
-  imports: [],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  imports: [ValidarAcceso],
+  template: '<app-validar-acceso />',
+  styleUrl: './app.scss',
 })
-export class App {
-  protected readonly title = signal('validar-acceso-angular');
-}
+export class App {}
